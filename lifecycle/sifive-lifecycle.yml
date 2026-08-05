@@ -1,0 +1,71 @@
+generated: '2026-08-05'
+method: probed
+source: 'https://www.sifive.com/, https://github.com/sifive, https://scs.sifive.com/'
+description: >-
+  Lifecycle posture for SiFive's public developer surface. SiFive publishes no API
+  versioning policy, no deprecation policy, no SLA and no status page — its release cadence
+  is expressed through dated software releases in the sifive GitHub organization and
+  through GitHub repository archival rather than through any published lifecycle document.
+versioning:
+  scheme: dated-release
+  api_versioning: none
+  evidence: >-
+    The SCS OAuth endpoints are unversioned (/o/authorize/, /o/token/). Software releases
+    use a YYYY.MM date-train tag — e.g. sifive/freedom-tools v2020.12.0 "December 2020 Tools
+    Release".
+  docs: null
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  evidence: >-
+    No deprecation or sunset policy is published anywhere on sifive.com. Deprecation is
+    signalled only in-band on GitHub: sifive/freedom-e-sdk is archived and its description
+    reads "Open Source Software for Developing on the Freedom E Platform - Deprecated".
+  note: >-
+    No `type: Deprecation` pointer is wired in apis.yml — a repository description is not a
+    deprecation policy.
+sla:
+  url: null
+  uptime_target: null
+  published: false
+status_page:
+  url: null
+  published: false
+  evidence:
+  - {url: 'https://status.sifive.com', status: 000, note: 'does not resolve'}
+  - {url: 'https://www.sifive.com/status', status: 404}
+  - url: 'https://sifive.statuspage.io'
+    status: 200
+    note: >-
+      SOFT 404 — not a SiFive status page. The body is Atlassian's Statuspage marketing
+      page, byte-comparable to a control request for a deliberately nonexistent subdomain
+      (https://sifive-not-a-real-page-xyz.statuspage.io, also 200, same body). Recorded so a
+      later run does not mistake the 200 for a real status page.
+  note: >-
+    No `type: StatusPage` pointer is wired in apis.yml. SiFive publishes no status page.
+release_channels:
+- {name: 'GitHub releases', url: 'https://github.com/sifive', cadence: 'dated (YYYY.MM) tools releases'}
+- {name: 'npm (DUH toolchain)', url: 'https://www.npmjs.com/package/duh', cadence: semver}
+- {name: 'SiFive Cloud Services portal', url: 'https://scs.sifive.com/', cadence: unknown, access: 'customer login required'}
+deprecated_artifacts:
+- {name: freedom-e-sdk, url: 'https://github.com/sifive/freedom-e-sdk', state: archived, evidence: 'GitHub archived:true; description says "Deprecated"'}
+legacy_products:
+- {name: HiFive Unleashed, url: 'https://www.sifive.com/boards/hifive-unleashed', state: legacy}
+- {name: HiFive Unmatched, url: 'https://www.sifive.com/boards/hifive-unmatched', state: legacy}
+- {name: HiFive1, url: 'https://www.sifive.com/boards/hifive1', state: legacy}
+- {name: 'HiFive1 Rev B', url: 'https://www.sifive.com/boards/hifive1-rev-b', state: legacy}
+current_products:
+- {name: 'HiFive Premier P550', url: 'https://www.sifive.com/boards/hifive-premier-p550'}
+- {name: 'HiFive Unmatched Rev B', url: 'https://www.sifive.com/boards/hifive-unmatched-revb'}
+gaps:
+- No published API versioning policy.
+- No published deprecation or sunset policy; no RFC 8594 Sunset/Deprecation header support.
+- No status page and no SLA for the SiFive Cloud Services portal that customers depend on for Core Designer.
+x-evidence:
+  fetched: '2026-08-05'
+  probes:
+  - {url: 'https://status.sifive.com', status: 000}
+  - {url: 'https://www.sifive.com/status', status: 404}
+  - {url: 'https://sifive.statuspage.io', status: 200, verdict: soft-404}
+  - {url: 'https://api.github.com/repos/sifive/freedom-e-sdk', status: 200}

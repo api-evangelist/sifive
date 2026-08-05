@@ -1,0 +1,52 @@
+generated: '2026-08-05'
+method: probed
+source: https://scs.sifive.com/.well-known/oauth-authorization-server
+description: >-
+  The complete scope set SiFive Cloud Services advertises in its RFC 8414 metadata. SiFive
+  publishes no scopes/permissions reference page, so these three values are the only
+  authoritative statement of the SCS OAuth permission surface that exists publicly. The
+  two mcp:* scopes are the provider's own evidence of a Model Context Protocol resource
+  server behind the portal — see mcp/sifive-mcp.yml.
+schemes:
+- name: SiFiveCloudServicesOAuth2
+  source: https://scs.sifive.com/.well-known/oauth-authorization-server
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://scs.sifive.com/o/authorize/
+    tokenUrl: https://scs.sifive.com/o/token/
+scopes:
+- scope: openid
+  description: >-
+    Standard OpenID Connect scope requesting an ID token about the authenticated SiFive
+    Cloud Services user. Signed RS256 per the metadata, though the advertised JWKS is
+    currently empty.
+  flows: [authorizationCode]
+  sources: ['https://scs.sifive.com/.well-known/oauth-authorization-server']
+- scope: 'mcp:read'
+  description: >-
+    Read access to the Model Context Protocol resource server behind SiFive Cloud
+    Services. Description is inferred from the scope name and MCP convention — SiFive
+    publishes no scope reference page. The resource endpoint itself was not publicly
+    discoverable.
+  flows: [authorizationCode]
+  sources: ['https://scs.sifive.com/.well-known/oauth-authorization-server']
+  x-description-inferred: true
+- scope: 'mcp:write'
+  description: >-
+    Write access to the Model Context Protocol resource server behind SiFive Cloud
+    Services. Description is inferred from the scope name and MCP convention — SiFive
+    publishes no scope reference page.
+  flows: [authorizationCode]
+  sources: ['https://scs.sifive.com/.well-known/oauth-authorization-server']
+  x-description-inferred: true
+gaps:
+- >-
+  No published scopes/permissions reference. The names above are the entire public record;
+  the two mcp:* descriptions are inferred from the scope name, not quoted from SiFive.
+- >-
+  No RFC 9728 protected-resource metadata is served, so the resource server(s) these
+  scopes protect cannot be discovered from the authorization server.
+x-evidence:
+  fetched: '2026-08-05'
+  url: https://scs.sifive.com/.well-known/oauth-authorization-server
+  http_status: 200

@@ -1,0 +1,91 @@
+generated: '2026-08-05'
+method: derived
+source: json-schema/sifive-duh-schema.json
+description: >-
+  Entity-relationship graph derived from SiFive's published DUH (Design ∪ Hardware) JSON
+  Schema — the draft-07 schema shipped as dist/schema.json in the duh-schema npm package.
+  This is not an API data model (SiFive publishes no REST API); it is the object model of
+  the hardware-IP description documents SiFive's toolchain reads and writes, and it is the
+  most substantive machine-readable contract the company publishes. Every entity, field
+  and reference below is read straight out of the schema — nothing is inferred.
+spec:
+  format: JSON Schema draft-07
+  encoding: JSON5
+  root: 'oneOf — a DUH document is exactly one of the eight root entity types below'
+root_types: [catalog, component, design, abstractionDefinition, busDefinition, busInterface, memoryMap, register]
+entities:
+- name: catalog
+  description: A collection of reusable hardware components, designs and bus definitions.
+  properties: [components, designs, busDefinitions]
+- name: component
+  description: A packaged reusable hardware component (an IP block).
+  properties: [busInterfaces, model, addressSpaces, memoryMaps, componentGenerators, fileSets, parameters, props, assertions]
+- name: design
+  description: An assembly of component instances and the connections between them.
+  properties: [instances, links, connections, adHocConnections, props, assertions]
+- name: busInterface
+  description: A named interface on a component, typed by a bus definition.
+  required: [name, busType]
+  properties: [name, displayName, description, interfaceMode, memoryMapRef, busType, abstractionTypes]
+- name: busDefinition
+  description: The definition of a bus protocol (AXI4, AHB, APB, TileLink and similar).
+  properties: [description, props, assertions]
+- name: abstractionDefinition
+  description: The port-level abstraction of a bus definition.
+  required: [busType, ports]
+  properties: [busType, ports, props, assertions]
+- name: memoryMap
+  description: A memory map made of one or more address blocks.
+  required: [name, addressBlocks]
+  properties: [name, addressUnitBits, addressBlocks]
+- name: addressBlock
+  parent: memoryMap
+  description: A contiguous addressable region within a memory map.
+  required: [name, baseAddress, range, width]
+- name: register
+  description: A hardware register at an offset within an address block.
+  required: [name, addressOffset, size]
+  properties: [name, addressOffset, size, access, displayName, description, fields, resetValue, resetMask]
+- name: registerField
+  parent: register
+  description: A bit field within a register.
+  required: [name, bitOffset, bitWidth]
+- name: registerFile
+  description: A grouping of registers.
+- name: enumeratedValue
+  parent: registerField
+  description: A named legal value for a register field.
+- name: bundle
+  description: A structured grouping of ports used in busInterface port maps.
+relationships:
+- {from: catalog, to: component, kind: has_many, via: components}
+- {from: catalog, to: design, kind: has_many, via: designs}
+- {from: catalog, to: busDefinition, kind: has_many, via: busDefinitions}
+- {from: component, to: busInterface, kind: has_many, via: busInterfaces}
+- {from: component, to: memoryMap, kind: has_many, via: memoryMaps}
+- {from: component, to: addressSpace, kind: has_many, via: addressSpaces}
+- {from: design, to: component, kind: has_many, via: 'instances (component instantiation)'}
+- {from: design, to: connection, kind: has_many, via: connections}
+- {from: design, to: connection, kind: has_many, via: adHocConnections}
+- {from: design, to: link, kind: has_many, via: links}
+- {from: busInterface, to: busDefinition, kind: belongs_to, via: busType}
+- {from: busInterface, to: memoryMap, kind: belongs_to, via: memoryMapRef}
+- {from: busInterface, to: abstractionDefinition, kind: has_many, via: 'abstractionTypes[].viewRef'}
+- {from: abstractionDefinition, to: busDefinition, kind: belongs_to, via: busType}
+- {from: memoryMap, to: addressBlock, kind: has_many, via: addressBlocks}
+- {from: addressBlock, to: register, kind: has_many, via: registers}
+- {from: register, to: registerField, kind: has_many, via: fields}
+- {from: registerField, to: enumeratedValue, kind: has_many, via: enumeratedValues}
+- {from: busInterface, to: bundle, kind: has_many, via: 'abstractionTypes[].portMaps'}
+identifier_convention:
+  pattern: '^[_:A-Za-z][-._:A-Za-z0-9]*$'
+  max_length: 256
+  note: >-
+    Every named entity (component, busInterface, memoryMap, addressBlock, register,
+    registerField) shares this name pattern and 256-character ceiling, enforced in-schema.
+interop:
+  - {standard: 'IEEE 1685 IP-XACT', direction: 'import/export', tool: duh-ipxact}
+  - {standard: SystemRDL, direction: 'import/export', tool: duh-systemrdl}
+  - {standard: 'CMSIS-SVD', direction: export, tool: duh-svd}
+  - {standard: SystemVerilog, direction: 'import (ports)', tool: 'duh duh-import-verilog-ports'}
+  - {standard: 'Scala / Chisel', direction: export, tool: duh-scala}

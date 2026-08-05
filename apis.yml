@@ -1,18 +1,65 @@
 aid: sifive
 name: SiFive
-description: 'SiFive is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'SiFive is a semiconductor intellectual-property company founded by the
+  creators of the RISC-V instruction set architecture at UC Berkeley — Krste Asanovic,
+  Yunsup Lee and Andrew Waterman — and licenses configurable RISC-V processor core IP
+  rather than manufacturing chips. Its catalog spans the Essential (E/S/U), Performance
+  (P500/P600/P800), Intelligence (X100/X200/X300/XM) and Automotive (E6-A/E7-A/S7-A)
+  core families plus system IP including SiFive Insight trace and debug, IOMMU Gen 2,
+  Shield and WorldGuard. Customers configure a Core Design and generate a downloadable
+  Dev Kit of RTL, testbench, software and documentation through SiFive Core Designer,
+  delivered from the SiFive Cloud Services (SCS) portal at scs.sifive.com. The public
+  developer surface is software tooling rather than a hosted REST API: the Freedom SDK
+  for Metal and for Linux, Freedom Studio, Freedom Tools, the SiFive Kernel Library
+  and the open-source DUH hardware-IP description toolchain and JSON Schema published
+  on npm and GitHub.'
+image: https://www.sifive.com/assets/sifive-ogp.jpeg
 url: https://raw.githubusercontent.com/api-evangelist/sifive/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-05'
 modified: '2026-08-05'
 tags:
 - Company
-apis: []
+- Semiconductors
+- RISC-V
+- Processor IP
+- Chip Design
+- Embedded
+- Hardware
+- Developer Tools
+- Electronic Design Automation
+- OAuth
+apis:
+- aid: sifive-cloud-services-oauth
+  name: SiFive Cloud Services OAuth 2.0
+  description: 'The OAuth 2.0 authorization server that fronts the SiFive Cloud Services
+    (SCS) portal at scs.sifive.com, where SiFive Core Designer and the rest of the
+    SiFive development tooling are delivered. It publishes RFC 8414 authorization
+    server metadata anonymously at /.well-known/oauth-authorization-server, supports
+    the authorization_code and refresh_token grants with PKCE (S256), exposes token,
+    introspection, revocation, userinfo, dynamic client registration and JWKS
+    endpoints, and advertises the openid, mcp:read and mcp:write scopes. The protected
+    resources behind it — including the MCP surface implied by those scopes — require
+    a SiFive customer account.'
+  humanURL: https://www.sifive.com/software/sifive-core-designer
+  baseURL: https://scs.sifive.com/o
+  tags:
+  - OAuth
+  - Authorization
+  - Identity
+  - Chip Design
+  - Developer Tools
+  properties:
+  - type: Authentication
+    url: authentication/sifive-authentication.yml
+  - type: OAuthScopes
+    url: scopes/sifive-scopes.yml
+  - type: ErrorCatalog
+    url: errors/sifive-problem-types.yml
+  - type: WellKnown
+    url: well-known/sifive-well-known.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +67,88 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://forgeglobal.com/sifive_stock/
+  url: https://www.sifive.com/
+- type: DeveloperPortal
+  url: https://www.sifive.com/developers
+- type: Documentation
+  url: https://www.sifive.com/documentation
+- type: GettingStarted
+  url: https://www.sifive.com/software
+- type: Support
+  url: https://support.sifive.com/
+- type: Community
+  url: https://forums.sifive.com/
+- type: Blog
+  url: https://www.sifive.com/blog
+- type: BlogRSS
+  url: https://www.sifive.com/blog/rss.xml
+- type: GitHubOrganization
+  url: https://github.com/sifive
+- type: SignUp
+  url: https://scs.sifive.com/accounts/login/
+- type: TermsOfService
+  url: https://www.sifive.com/terms
+- type: PrivacyPolicy
+  url: https://www.sifive.com/privacy
+- type: Security
+  url: https://www.sifive.com/psirt-report-vulnerability
+- type: VulnerabilityDisclosure
+  url: security/sifive-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/sifive-domain-security.yml
+- type: WellKnown
+  url: well-known/sifive-well-known.yml
+- type: Authentication
+  url: authentication/sifive-authentication.yml
+- type: OAuthScopes
+  url: scopes/sifive-scopes.yml
+- type: Packages
+  url: packages/sifive-packages.yml
+- type: SDKs
+  url: packages/sifive-packages.yml
+- type: CLI
+  url: cli/sifive-cli.yml
+- type: JSONSchema
+  url: json-schema/sifive-duh-schema.json
+- type: DataModel
+  url: data-model/sifive-data-model.yml
+- type: ErrorCatalog
+  url: errors/sifive-problem-types.yml
+- type: Conformance
+  url: conformance/sifive-conformance.yml
+- type: Conventions
+  url: conventions/sifive-conventions.yml
+- type: Lifecycle
+  url: lifecycle/sifive-lifecycle.yml
+- type: LLMsTxt
+  url: llms/sifive-llms.txt
+x-enrichment:
+  date: '2026-08-05'
+  status: enriched
+  artifacts_added: 17
+  pass: local-v1
+x-coverage:
+  state: covered
+  reason: null
+  detail: >-
+    SiFive has no public REST API and publishes no OpenAPI — contract discovery probed
+    /openapi.json, /openapi.yaml, /swagger.json, /api-docs, /graphql and
+    /.well-known/api-catalog on both www.sifive.com and scs.sifive.com and every one
+    returned 404. What it does publish was captured: a live RFC 8414 OAuth 2.0
+    authorization server on the SiFive Cloud Services portal (whose scopes_supported names
+    mcp:read and mcp:write, so an MCP server exists behind the customer login even though
+    no MCP endpoint is publicly reachable or documented), the draft-07 DUH hardware-IP
+    JSON Schema, the first-party DUH npm/PyPI toolchain, and an ISO/IEC 29147 PSIRT
+    disclosure program.
+  evidence:
+  - url: https://scs.sifive.com/.well-known/oauth-authorization-server
+    status: 200
+  - url: https://www.sifive.com/psirt-report-vulnerability
+    status: 200
+  - url: https://www.sifive.com/openapi.json
+    status: 404
+  - url: https://scs.sifive.com/mcp
+    status: 404
+  - url: https://www.sifive.com/.well-known/agent-card.json
+    status: 404
+  checked: '2026-08-05'

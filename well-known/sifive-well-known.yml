@@ -1,0 +1,73 @@
+generated: '2026-08-05'
+method: probed
+source: https://scs.sifive.com/.well-known/oauth-authorization-server
+description: >-
+  Well-known discovery surface probed across every SiFive host. Only the SiFive Cloud
+  Services (SCS) portal at scs.sifive.com serves anything — a live RFC 8414 OAuth 2.0
+  Authorization Server Metadata document. www.sifive.com serves nothing under
+  /.well-known/. A control path (/.well-known/zzz-control-not-real) returned 404 on
+  scs.sifive.com, confirming the 200 is a real document and not a catch-all.
+hosts:
+- host: https://scs.sifive.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    spec: RFC 8414
+    status: 200
+    content_type: application/json
+    file: sifive-oauth-authorization-server.json
+  - path: /o/.well-known/jwks.json
+    spec: RFC 7517
+    status: 200
+    content_type: application/json
+    file: sifive-jwks.json
+    note: >-
+      Served, but the key set is empty ({"keys": []}) — no signing keys are published,
+      so an RS256 id_token issued by this server cannot be verified by a relying party
+      using published JWKS.
+  - path: /.well-known/openid-configuration
+    spec: OpenID Connect Discovery 1.0
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    spec: RFC 9728
+    status: 404
+  - path: /.well-known/security.txt
+    spec: RFC 9116
+    status: 404
+  - path: /.well-known/agent-card.json
+    spec: A2A 1.0.0
+    status: 404
+  - path: /.well-known/zzz-control-not-real
+    status: 404
+    note: control probe — confirms this host does not answer 200 for arbitrary well-known paths
+- host: https://www.sifive.com
+  documents:
+  - path: /.well-known/security.txt
+    spec: RFC 9116
+    status: 404
+    note: >-
+      No security.txt, but SiFive does run a PSIRT disclosure program at
+      /psirt-report-vulnerability — see security/sifive-vulnerability-disclosure.yml.
+  - path: /.well-known/api-catalog
+    spec: RFC 9727
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/agent-card.json
+    spec: A2A 1.0.0
+    status: 404
+  - path: /.well-known/agent.json
+    spec: A2A pre-0.3 legacy
+    status: 404
+  - path: /llms.txt
+    status: 404
+x-evidence:
+  fetched: '2026-08-05'
+  probes:
+  - {url: 'https://scs.sifive.com/.well-known/oauth-authorization-server', status: 200}
+  - {url: 'https://scs.sifive.com/o/.well-known/jwks.json', status: 200}
+  - {url: 'https://scs.sifive.com/.well-known/zzz-control-not-real', status: 404}
+  - {url: 'https://www.sifive.com/.well-known/security.txt', status: 404}
+  - {url: 'https://www.sifive.com/.well-known/agent-card.json', status: 404}
+  - {url: 'https://www.sifive.com/llms.txt', status: 404}

@@ -1,0 +1,64 @@
+generated: '2026-08-05'
+method: searched
+source: https://github.com/sifive/duh
+description: >-
+  SiFive publishes no CLI for a hosted API — it has none. Its first-party CLI is `duh`
+  (Design ∪ Hardware), a suite of tools for packaging reusable hardware components and
+  designs, distributed on npm from github.com/sifive/duh under Apache-2.0. Commands and
+  companion binaries below are taken verbatim from the published README and the package
+  manifest's `bin` map.
+cli:
+  name: duh
+  full_name: Design Union Hardware
+  language: javascript
+  license: Apache-2.0
+  version: 1.21.0
+  repository: https://github.com/sifive/duh
+  package: https://www.npmjs.com/package/duh
+  docs: https://github.com/sifive/duh#readme
+install:
+- {method: npm, command: 'npm i -g duh', note: 'requires Node.js 12, 14 or 16 per the README'}
+- {method: npx, command: 'npx duh --help'}
+help: duh --help
+commands:
+- group: create
+  commands:
+  - {command: 'duh init', description: 'Create a base DUH document.'}
+- group: import
+  commands:
+  - {command: 'duh duh-import-verilog-ports', description: 'Import a component interface from SystemVerilog RTL.'}
+  - {command: 'duh-import-verilog-ports-simple', description: 'Simplified Verilog port import.', binary: true}
+- group: infer
+  commands:
+  - {command: 'duh-portinf', description: 'Infer mappings of port groups to standard bus definitions (AXI, AHB, TileLink).'}
+  - {command: 'duh-portbundler', description: 'Group ports unassigned to a bus mapping into structured bundles.'}
+  - {command: 'duh-infer-channels', description: 'Infer channels.', binary: true}
+- group: validate
+  commands:
+  - {command: 'duh validate', description: 'Test whether a document conforms to the DUH document structure (JSON Schema draft-07).'}
+- group: export
+  commands:
+  - {command: 'duh-export-scala', description: 'Generate Scala black box wrappers for the component.'}
+  - {command: 'duh-export-verilog-bbx', description: 'Export a Verilog black box.', binary: true}
+binaries:
+- {name: duh, path: bin/duh.js}
+- {name: duh-import-verilog-ports, path: bin/duh-import-verilog-ports.js}
+- {name: duh-import-verilog-ports-simple, path: bin/duh-import-verilog-ports-simple.js}
+- {name: duh-infer-channels, path: bin/infer-channels.js}
+- {name: duh-export-verilog-bbx, path: bin/export-verilog-bbx.js}
+toolbox:
+- {name: duh-scala, purpose: 'Scala / Chisel export', url: 'https://github.com/sifive/duh-scala'}
+- {name: duh-ipxact, purpose: 'IEEE 1685 IP-XACT import / export', url: 'https://github.com/sifive/duh-ipxact'}
+- {name: duh-systemrdl, purpose: 'SystemRDL import / export', url: 'https://github.com/sifive/duh-systemrdl'}
+- {name: duhportinf, purpose: 'Bus interface inference', url: 'https://github.com/sifive/duhportinf'}
+- {name: duh-bus, purpose: 'DUH bus definitions', url: 'https://github.com/sifive/duh-bus'}
+- {name: duh-schema, purpose: 'DUH document JSON Schema', url: 'https://github.com/sifive/duh-schema'}
+- {name: duh-core, purpose: 'DUH core library', url: 'https://github.com/sifive/duh-core'}
+- {name: duh-verilog, purpose: 'Verilog generator from a DUH document', url: 'https://github.com/sifive/duh-verilog'}
+- {name: duh-svd, purpose: 'DUH to CMSIS-SVD converter', url: 'https://github.com/sifive/duh-svd'}
+examples:
+- {name: block-ark, url: 'https://github.com/sifive/block-ark', description: 'Walk-through applying the DUH suite to a standalone module.'}
+document_format:
+  encoding: JSON5
+  schema: json-schema/sifive-duh-schema.json
+  data_model: data-model/sifive-data-model.yml

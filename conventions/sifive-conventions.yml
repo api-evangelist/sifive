@@ -1,0 +1,72 @@
+generated: '2026-08-05'
+method: probed
+source: https://scs.sifive.com/
+description: >-
+  Cross-cutting request/response semantics for the only callable SiFive surface — the
+  SiFive Cloud Services OAuth 2.0 authorization server. SiFive publishes no API conventions
+  guide, so everything here was observed on the wire or read from the RFC 8414 metadata.
+  Most rows are honestly empty: there is no public resource API on which pagination,
+  idempotency, expansion or rate-limit signaling could be observed.
+authentication:
+  style: 'OAuth 2.0 authorization_code with PKCE (S256); refresh_token for renewal'
+  bearer_header: 'Authorization: Bearer <access_token>'
+  client_auth: [client_secret_basic, client_secret_post, none]
+  detail: authentication/sifive-authentication.yml
+idempotency:
+  supported: false
+  evidence: >-
+    No idempotency key header or parameter is documented or observable. The OAuth endpoints
+    follow RFC 6749 semantics only. NOTE — no `type: Idempotency` pointer is wired in
+    apis.yml because there is no idempotency contract to point at.
+pagination:
+  supported: unknown
+  evidence: 'No public collection endpoint exists to observe a pagination style on.'
+versioning:
+  scheme: none-observed
+  evidence: >-
+    The OAuth endpoints are unversioned (/o/authorize/, /o/token/). No version header,
+    date-pinning or URI version segment is advertised.
+  detail: lifecycle/sifive-lifecycle.yml
+error_envelope:
+  content_type: application/json
+  shape: '{"status": "error", "error_code": "<CODE>", "message": "<message>"}'
+  rfc9457: false
+  detail: errors/sifive-problem-types.yml
+rate_limiting:
+  documented: false
+  headers_observed: []
+  note: >-
+    No RateLimit / X-RateLimit headers were returned on any probed endpoint, and no rate
+    limit policy is published.
+request_tracing:
+  request_id_header: none-observed
+security_headers_observed:
+  host: scs.sifive.com
+  headers:
+  - {name: strict-transport-security, value: 'max-age=31536000; includeSubDomains'}
+  - {name: x-frame-options, value: DENY}
+  - {name: x-content-type-options, value: nosniff}
+  - {name: referrer-policy, value: same-origin}
+  - {name: cross-origin-opener-policy, value: same-origin}
+  - {name: vary, value: Cookie}
+  note: >-
+    A solid default security-header posture — this is the Django/django-oauth-toolkit stack
+    the SCS portal runs on.
+platform:
+  stack: 'Django with django-oauth-toolkit (OAuth endpoints mounted at /o/)'
+  evidence: 'endpoint layout /o/authorize/, /o/token/, /o/revoke_token/, /o/introspect/ and the Django session Vary: Cookie / X-Frame-Options defaults'
+document_conventions:
+  note: >-
+    SiFive's substantive published contract is a document format, not an HTTP API — DUH
+    documents in JSON5 validated against a draft-07 JSON Schema.
+  encoding: JSON5
+  schema: json-schema/sifive-duh-schema.json
+  identifier_pattern: '^[_:A-Za-z][-._:A-Za-z0-9]*$'
+  identifier_max_length: 256
+  validation_command: duh validate
+  detail: data-model/sifive-data-model.yml
+x-evidence:
+  fetched: '2026-08-05'
+  probes:
+  - {url: 'https://scs.sifive.com/mcp', status: 404}
+  - {url: 'https://scs.sifive.com/.well-known/oauth-authorization-server', status: 200}

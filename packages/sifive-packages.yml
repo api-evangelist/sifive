@@ -1,0 +1,155 @@
+generated: '2026-08-05'
+method: searched
+source: 'npm registry, PyPI, crates.io, github.com/sifive'
+description: >-
+  SiFive ships no REST API client SDKs — it has no public REST API. Its first-party
+  published libraries are hardware/embedded development artifacts: the DUH (Design Unit
+  Hardware) toolchain on npm, all published from github.com/sifive under Apache-2.0 by the
+  same npm maintainer set (drom, albertpchen, rxia); the Freedom SDKs distributed as
+  source and release archives from the sifive GitHub organization rather than a package
+  registry; and pydevicetree on PyPI. Third-party packages that merely carry the SiFive
+  name (the @sifive/* xPacks, published by micro-os-plus, and the sifive-* Rust crates) are
+  listed separately and marked official:false.
+packages:
+- language: javascript
+  registry: npm
+  name: duh
+  version: 1.21.0
+  url: https://www.npmjs.com/package/duh
+  repository: https://github.com/sifive/duh
+  install: npm install -g duh
+  license: Apache-2.0
+  official: true
+  description: >-
+    Design Unit Hardware — the top-level CLI and library for SiFive's JSON/JSON5 hardware
+    IP description format. See cli/sifive-cli.yml for the command surface.
+- language: javascript
+  registry: npm
+  name: duh-schema
+  version: 0.12.0
+  url: https://www.npmjs.com/package/duh-schema
+  repository: https://github.com/sifive/duh-schema
+  install: npm install duh-schema
+  license: Apache-2.0
+  official: true
+  description: >-
+    The JSON Schema (draft-07) for DUH documents. Ships a compiled schema at
+    dist/schema.json, captured verbatim in json-schema/sifive-duh-schema.json.
+- language: javascript
+  registry: npm
+  name: duh-core
+  version: 0.16.1
+  url: https://www.npmjs.com/package/duh-core
+  repository: https://github.com/sifive/duh-core
+  install: npm install duh-core
+  license: Apache-2.0
+  official: true
+- language: javascript
+  registry: npm
+  name: duh-bus
+  version: 0.12.1
+  url: https://www.npmjs.com/package/duh-bus
+  repository: https://github.com/sifive/duh-bus
+  install: npm install duh-bus
+  license: Apache-2.0
+  official: true
+  description: Bus definition DUH documents (AXI4, AHB, APB and similar interface specs).
+- language: javascript
+  registry: npm
+  name: duh-ipxact
+  version: 1.0.0
+  url: https://www.npmjs.com/package/duh-ipxact
+  repository: https://github.com/sifive/duh-ipxact
+  install: npm install duh-ipxact
+  license: Apache-2.0
+  official: true
+  description: IEEE 1685 IP-XACT import/export for DUH documents.
+- language: javascript
+  registry: npm
+  name: duh-verilog
+  version: 0.3.1
+  url: https://www.npmjs.com/package/duh-verilog
+  repository: https://github.com/sifive/duh-verilog
+  install: npm install duh-verilog
+  license: Apache-2.0
+  official: true
+- language: javascript
+  registry: npm
+  name: duh-om
+  version: 0.14.0
+  url: https://www.npmjs.com/package/duh-om
+  repository: https://github.com/sifive/duh-om
+  install: npm install duh-om
+  license: Apache-2.0
+  official: true
+  description: Object Model to DUH converter.
+- language: javascript
+  registry: npm
+  name: duh-scala
+  version: 0.16.0
+  url: https://www.npmjs.com/package/duh-scala
+  repository: https://github.com/sifive/duh
+  install: npm install duh-scala
+  license: Apache-2.0
+  official: true
+  description: DUH component export to Scala (Chisel/Rocket Chip generators).
+- language: python
+  registry: pypi
+  name: duhportinf
+  version: 0.4.0
+  url: https://pypi.org/project/duhportinf/
+  repository: https://github.com/sifive/duhportinf
+  install: pip install duhportinf
+  license: Apache-2.0
+  official: true
+  description: Matches a flat named port list to a library of bus specifications.
+- language: python
+  registry: pypi
+  name: pydevicetree
+  version: 0.0.13
+  url: https://pypi.org/project/pydevicetree/
+  repository: https://github.com/sifive/pydevicetree
+  install: pip install pydevicetree
+  official: true
+  description: Library for parsing Devicetree Source v1.
+sdks:
+- name: Freedom SDK for Metal
+  language: c
+  url: https://www.sifive.com/software/freedom-sdk-metal
+  repository: https://github.com/sifive/freedom-metal
+  distribution: source + release archives (not on a package registry)
+  official: true
+  description: >-
+    Bare-metal compatibility library for the Freedom platform — the HAL for SiFive RISC-V
+    cores, with benchmarks, example programs and the FreeRTOS kernel.
+- name: Freedom SDK for Linux
+  language: c
+  url: https://www.sifive.com/software/freedom-sdk-linux
+  distribution: source + release archives
+  official: true
+- name: SiFive Freedom Tools
+  language: c
+  url: https://www.sifive.com/software/sifive-freedom-tools
+  repository: https://github.com/sifive/freedom-tools
+  distribution: prebuilt toolchain releases
+  official: true
+  description: RISC-V GNU toolchain, OpenOCD and QEMU builds for SiFive targets.
+- name: SiFive Kernel Library
+  url: https://www.sifive.com/software/sifive-kernel-library
+  official: true
+third_party:
+- {registry: npm, name: '@sifive/templates', publisher: micro-os-plus, official: false}
+- {registry: npm, name: '@sifive/devices', publisher: micro-os-plus, official: false}
+- {registry: npm, name: '@sifive/hifive1-board', publisher: micro-os-plus, official: false}
+- {registry: npm, name: '@sifive/arty-boards', publisher: micro-os-plus, official: false}
+- {registry: crates.io, name: sifive-fe310-g002, official: false, note: 'community RISC-V embedded PAC'}
+- {registry: crates.io, name: sifive-core, official: false}
+- {registry: crates.io, name: sifive-test-device, official: false}
+registries_probed:
+- {registry: npm, result: 'first-party DUH family found'}
+- {registry: pypi, result: 'duhportinf + pydevicetree found; no "sifive" package (404)'}
+- {registry: crates.io, result: 'community crates only, no sifive-owned crate'}
+- {registry: maven-central, result: none}
+- {registry: nuget, result: none}
+- {registry: rubygems, result: none}
+- {registry: packagist, result: none}

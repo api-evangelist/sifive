@@ -1,0 +1,74 @@
+generated: '2026-08-05'
+method: probed
+source: https://scs.sifive.com/
+format: custom-json
+description: >-
+  SiFive publishes no error reference and no OpenAPI to derive one from. This catalog is
+  built from error envelopes observed directly while probing the SiFive Cloud Services
+  origin, plus the RFC 6749 / RFC 7009 / RFC 7662 error contract that the SCS OAuth 2.0
+  endpoints inherit from their advertised specs. Every entry marked `observed: true` is a
+  response body this pipeline actually received.
+envelope:
+  content_type: application/json
+  shape: '{"status": "error", "error_code": "<CODE>", "message": "<human message>"}'
+  fields:
+  - {name: status, type: string, note: 'literal "error"'}
+  - {name: error_code, type: string, note: 'uppercase snake code, prefixed with the HTTP status — e.g. 404_NOT_FOUND'}
+  - {name: message, type: string, note: 'human-readable description'}
+  rfc9457: false
+  note: >-
+    Not RFC 9457 Problem Details — no application/problem+json media type, no type/title/
+    detail/instance members. A bare custom envelope.
+problems:
+- status: 404
+  error_code: 404_NOT_FOUND
+  title: Not found
+  detail: The requested URL was not found on this server.
+  observed: true
+  observed_at: https://scs.sifive.com/mcp
+  content_type: application/json
+- status: 405
+  title: Method not allowed
+  detail: >-
+    Returned by the OAuth token, registration and revocation endpoints for a GET; these are
+    POST-only per RFC 6749 / RFC 7591 / RFC 7009.
+  observed: true
+  observed_at: 'https://scs.sifive.com/o/token/, /o/register/, /o/revoke_token/'
+- status: 403
+  title: Forbidden
+  detail: Returned by the token introspection endpoint to an unauthenticated caller.
+  observed: true
+  observed_at: https://scs.sifive.com/o/introspect/
+- status: 401
+  title: Unauthorized
+  detail: Returned by the userinfo endpoint without a valid bearer access token.
+  observed: true
+  observed_at: https://scs.sifive.com/o/userinfo/
+- status: 302
+  title: Redirect to login
+  detail: >-
+    The authorization endpoint redirects an unauthenticated user agent to the SCS login
+    page rather than returning an error.
+  observed: true
+  observed_at: https://scs.sifive.com/o/authorize/
+oauth_error_codes:
+  spec: RFC 6749 §5.2 (token endpoint) and §4.1.2.1 (authorization endpoint)
+  observed: false
+  note: >-
+    Inherited from the specs the SCS metadata declares support for; not independently
+    verified because exercising them requires a registered client. Listed for completeness,
+    not asserted as SiFive-published.
+  codes: [invalid_request, invalid_client, invalid_grant, unauthorized_client, unsupported_grant_type, invalid_scope]
+gaps:
+- No published error reference on sifive.com.
+- >-
+  Error envelope is not RFC 9457, so an agent cannot resolve an error `type` URI or get
+  machine-readable remediation.
+x-evidence:
+  fetched: '2026-08-05'
+  probes:
+  - {url: 'https://scs.sifive.com/mcp', status: 404, content_type: 'application/json'}
+  - {url: 'https://scs.sifive.com/o/token/', status: 405}
+  - {url: 'https://scs.sifive.com/o/introspect/', status: 403}
+  - {url: 'https://scs.sifive.com/o/userinfo/', status: 401}
+  - {url: 'https://scs.sifive.com/o/authorize/', status: 302}
