@@ -1,0 +1,21 @@
+{
+  "repo": "sifive",
+  "feeds": [
+    {
+      "source": "https://forums.sifive.com/",
+      "feed_url": "https://forums.sifive.com/",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
+      "source": "https://www.sifive.com/blog",
+      "feed_url": "https://www.sifive.com/blog",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-08-06T14:08:46Z"
+}
