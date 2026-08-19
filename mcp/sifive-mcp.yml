@@ -2,25 +2,20 @@ generated: '2026-08-05'
 method: probed
 status: inferred-not-reachable
 source: https://scs.sifive.com/.well-known/oauth-authorization-server
-description: >-
-  SiFive Cloud Services advertises "mcp:read" and "mcp:write" in the
-  scopes_supported array of its live RFC 8414 OAuth 2.0 Authorization Server Metadata.
-  That is the provider's own machine-readable statement that a Model Context Protocol
-  resource server sits behind the SCS portal. It is NOT proof of a reachable public MCP
-  endpoint: every candidate path was probed and every one returned 404 from the SCS
-  origin, no RFC 9728 protected-resource metadata is served to point at the resource, and
-  SiFive documents no MCP server anywhere on sifive.com or in the sifive GitHub
-  organization.
+description: 'SiFive Cloud Services advertises "mcp:read" and "mcp:write" in the scopes_supported array
+  of its live RFC 8414 OAuth 2.0 Authorization Server Metadata. That is the provider''s own machine-readable
+  statement that a Model Context Protocol resource server sits behind the SCS portal. It is NOT proof
+  of a reachable public MCP endpoint: every candidate path was probed and every one returned 404 from
+  the SCS origin, no RFC 9728 protected-resource metadata is served to point at the resource, and SiFive
+  documents no MCP server anywhere on sifive.com or in the sifive GitHub organization.'
 server:
   name: sifive-cloud-services
   url: null
   transport: null
   documented: false
-  note: >-
-    Endpoint unknown. Deliberately left null rather than guessed — no MCP URL is recorded
-    because none was observed. This artifact carries NO `type: MCPServer` pointer in
-    apis.yml for the same reason: an unreachable, undocumented server must not be credited
-    as a published agent surface.
+  note: 'Endpoint unknown. Deliberately left null rather than guessed — no MCP URL is recorded because
+    none was observed. This artifact carries NO `type: MCPServer` pointer in apis.yml for the same reason:
+    an unreachable, undocumented server must not be credited as a published agent surface.'
 tools: []
 evidence:
 - kind: oauth-scope
@@ -32,32 +27,57 @@ probes:
   method: 'POST {"jsonrpc":"2.0","id":1,"method":"tools/list"} with Accept: application/json, text/event-stream'
   host: https://scs.sifive.com
   results:
-  - {path: /mcp, status: 404}
-  - {path: /mcp/, status: 404}
-  - {path: /mcp/http, status: 404}
-  - {path: /mcp/sse, status: 404}
-  - {path: /mcp/messages, status: 404}
-  - {path: /mcp-server, status: 404}
-  - {path: /sse, status: 404}
-  - {path: /messages, status: 404}
-  - {path: /rpc, status: 404}
-  - {path: /api/mcp, status: 404}
-  - {path: /api/mcp/, status: 404}
-  - {path: /v1/mcp, status: 404}
-  - {path: /o/mcp, status: 404}
-  - {path: /scs/mcp, status: 404}
-  - {path: /.well-known/mcp.json, status: 404}
-  - {path: /.well-known/oauth-protected-resource, status: 404}
-  - {path: /.well-known/oauth-protected-resource/mcp, status: 404}
+  - path: /mcp
+    status: 404
+  - path: /mcp/
+    status: 404
+  - path: /mcp/http
+    status: 404
+  - path: /mcp/sse
+    status: 404
+  - path: /mcp/messages
+    status: 404
+  - path: /mcp-server
+    status: 404
+  - path: /sse
+    status: 404
+  - path: /messages
+    status: 404
+  - path: /rpc
+    status: 404
+  - path: /api/mcp
+    status: 404
+  - path: /api/mcp/
+    status: 404
+  - path: /v1/mcp
+    status: 404
+  - path: /o/mcp
+    status: 404
+  - path: /scs/mcp
+    status: 404
+  - path: /.well-known/mcp.json
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/oauth-protected-resource/mcp
+    status: 404
   other_hosts_resolved: false
-  other_hosts_tried: [mcp.sifive.com, api.sifive.com, developer.sifive.com, designer.sifive.com]
-recommendation_to_provider: >-
-  Publish RFC 9728 OAuth 2.0 Protected Resource Metadata at
-  /.well-known/oauth-protected-resource naming the MCP resource URL, and document the MCP
-  endpoint on the developer page. Today the only public trace of SiFive's MCP work is two
-  scope strings; an agent cannot discover, connect to, or evaluate the server from them.
+  other_hosts_tried:
+  - mcp.sifive.com
+  - api.sifive.com
+  - developer.sifive.com
+  - designer.sifive.com
+recommendation_to_provider: Publish RFC 9728 OAuth 2.0 Protected Resource Metadata at /.well-known/oauth-protected-resource
+  naming the MCP resource URL, and document the MCP endpoint on the developer page. Today the only public
+  trace of SiFive's MCP work is two scope strings; an agent cannot discover, connect to, or evaluate the
+  server from them.
 x-evidence:
   fetched: '2026-08-05'
   url: https://scs.sifive.com/.well-known/oauth-authorization-server
   http_status: 200
   content_type: application/json
+deployment:
+  mode: unclear
+  verified: searched
+  checked: '2026-08-12'
+  source: catalog MCP census
