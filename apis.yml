@@ -30,6 +30,17 @@ tags:
 - Hardware
 - Developer Tools
 - Electronic Design Automation
+- Authentication
+tags_raw:
+- Company
+- Semiconductors
+- RISC-V
+- Processor IP
+- Chip Design
+- Embedded
+- Hardware
+- Developer Tools
+- Electronic Design Automation
 - OAuth
 apis:
 - aid: sifive-cloud-services-oauth
@@ -46,6 +57,12 @@ apis:
   humanURL: https://www.sifive.com/software/sifive-core-designer
   baseURL: https://scs.sifive.com/o
   tags:
+  - Authentication
+  - Authorization
+  - Identity
+  - Chip Design
+  - Developer Tools
+  tags_raw:
   - OAuth
   - Authorization
   - Identity
