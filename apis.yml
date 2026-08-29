@@ -13,6 +13,17 @@ description: 'SiFive is a semiconductor intellectual-property company founded by
   for Metal and for Linux, Freedom Studio, Freedom Tools, the SiFive Kernel Library
   and the open-source DUH hardware-IP description toolchain and JSON Schema published
   on npm and GitHub.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.sifive.com/assets/sifive-ogp.jpeg
 url: https://raw.githubusercontent.com/api-evangelist/sifive/refs/heads/main/apis.yml
 x-type: company
